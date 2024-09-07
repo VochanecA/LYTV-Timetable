@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winter Timetable 2024-2025</title>
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      background-color: #f0f8ff;
+      color: #333;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page__content {
+      padding: 20px;
+    }
+
+    ons-toolbar {
+      background-color: #003366;
+    }
+
+    ons-toolbar .center {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .header {
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .sub-header {
+      color: #003366;
+      font-size: 20px;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+
+    ons-card {
+      margin-bottom: 20px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .select-card {
+      background-color: #FFA500;
+      padding: 15px;
+    }
+
+    .search-card {
+      background-color: #90EE90;
+      padding: 15px;
+    }
+
+    .select-title, .search-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #003366;
+    }
+
+    ons-select {
+      width: 100%;
+    }
+
+    ons-search-input {
+      width: 100%;
+    }
+
+    ons-list-item {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    ons-list-item:last-child {
+      border-bottom: none;
+    }
+
+    ons-list-item ons-row {
+      padding: 15px 10px;
+    }
+
+    ons-list-item ons-row:nth-child(even) {
+      background-color: #f5f5f5;
+    }
+
+    ons-list-item ons-row:hover {
+      background-color: #e6f2ff;
+    }
+
+    .flight-number, .destination {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .time {
+      font-weight: bold;
+    }
+
+    .clock-icon {
+      margin-right: 5px;
+    }
+
+    #flights-list ons-col {
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      #flights-list ons-col {
+        font-size: 12px;
+      }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    ons-button {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      border-radius: 4px;
+      padding: 10px 20px;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <ons-page>
+    <ons-toolbar>
+      <div class="center">Winter Timetable 2024-2025</div>
+    </ons-toolbar>
+    
+    <div class="page__content">
+      <div class="header">Flight Schedule</div>
+      
+      <ons-card>
+        <div class="card__content">
+          <p>This is the preliminary flight schedule for the winter season from October 27, 2024, to March 29, 2025. Please note that airlines retain the right to make changes to the flight timetable.</p>
+        </div>
+      </ons-card>
+
+      <ons-card class="select-card">
+        <div class="select-title">Select destination</div>
+        <ons-select id="destination-select" onchange="filterFlights()">
+          <option value="">All destinations</option>
+          <option value="Belgrade, Serbia">Belgrade, Serbia (BEG)</option>
+          <option value="Berlin, Germany">Berlin, Germany (BER)</option>
+          <option value="Istanbul, Turkey">Istanbul, Turkey (IST)</option>
+        </ons-select>
+        
+        <!-- Switch to toggle between Arrivals and Departures -->
+        <div style="margin-top: 15px;">
+          <span>Show Departures</span>
+          <ons-switch id="flight-type-switch" checked="true" onchange="toggleSwitch(this)"></ons-switch>
+          <span>Show Arrivals</span>
+        </div>
+        
+      </ons-card>
+
+      <ons-card class="search-card">
+        <div class="search-title">Search flights</div>
+        <ons-search-input id="search-input" placeholder="Search by flight number or airline" onkeyup="filterFlights()"></ons-search-input>
+      </ons-card>
+
+      <ons-card id="flights-card">
+        <div class="card__content">
+          <div class="sub-header">Flight Information</div>
+          <ons-list id="flights-list">
+            <!-- Flights will be dynamically added here -->
+          </ons-list>
+        </div>
+      </ons-card>
+
+      <div class="button-container">
+        <ons-button onclick="showAllFlights()">Show All Flights</ons-button>
+        <ons-button onclick="clearFlights()">Clear</ons-button>
+      </div>
+    </div>
+  </ons-page>
+
+<script>
+const flightsData = [
+
+  { id: 1, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 151", airline: "Air Montenegro", aircraft: "E195", days: 1, startDate: "28-10-2024", endDate: "29-03-2025", time: "9:50", type: "arrival" },
+  { id: 2, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 153", airline: "Air Montenegro", aircraft: "E195", days: 2, startDate: "29-10-2024", endDate: "25-03-2025", time: "16:00", type: "arrival" },
+  { id: 3, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5361", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "8:30", type: "arrival" },
+  { id: 4, destination: "Istanbul, Turkey", iata: "IST", flightNumber: "4O 401", airline: "Air Montenegro", aircraft: "E195", days: 3, startDate: "28-10-2024", endDate: "29-03-2025", time: "15:30", type: "arrival" },
+
+
+  { id: 5, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 680", airline: "Air Serbia", aircraft: "AT72", days: "1,3,4,6,7", startDate: "27-10-2024", endDate: "29-03-2025", time: "8:10", type: "arrival" },
+  { id: 6, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 682", airline: "Air Serbia", aircraft: "E195", days: "1,5,7", startDate: "27-10-2024", endDate: "17-01-2025", time: "14:35", type: "arrival" },
+  { id: 7, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5361", airline: "Easy Jet Europe", aircraft: "A319", days: 2, startDate: "29-10-2024", endDate: "29-10-2024", time: "8:30", type: "arrival" },
+  { id: 8, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8811", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "12:40", type: "arrival" },
+  { id: 9, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 175", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "9:45", type: "arrival" },
+
+
+  { id: 10, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 150", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4,6", startDate: "28-10-2024", endDate: "29-03-2025", time: "7:30", type: "departure" },
+  { id: 11, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5362", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "9:10", type: "departure" },
+  { id: 12, destination: "Istanbul, Turkey", iata: "IST", flightNumber: "4O 400", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4", startDate: "28-10-2024", endDate: "29-03-2025", time: "11:10", type: "departure" },
+  { id: 13, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8812", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "13:20", type: "departure" },
+  { id: 14, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 176", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "10:45", type: "departure" },
+
+
+  { id: 15, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 152", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4,6", startDate: "28-10-2024", endDate: "29-03-2025", time: "7:30", type: "departure" },
+  { id: 16, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5362", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "9:10", type: "departure" },
+
+  { id: 17, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8812", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "13:20", type: "departure" },
+  { id: 18, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 176", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "10:45", type: "departure" },
+
+  { id: 19, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 681", airline: "Air Serbia", aircraft: "AT72",  days: "1,3,4,6,7", startDate: "27-10-2024", endDate: "29-03-2025", time: "8:40",type: "departure" },
+  { id: 20, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 683", airline: "Air Serbia", aircraft: "E195", days: "1,5,7", startDate: "27-10-2024", endDate: "17-01-2025", time: "15:20",  type: "departure" }
+
+
+];
+
+// Function to filter flights based on destination and search input
+function filterFlights() {
+  const destinationSelect = document.getElementById('destination-select');
+  const searchInput = document.getElementById('search-input');
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+
+  const selectedDestination = destinationSelect.value;
+  const searchTerm = searchInput.value.toLowerCase();
+  const showArrivals = flightTypeSwitch.checked; // true for arrivals, false for departures
+  const flightsList = document.getElementById('flights-list');
+  
+  flightsList.innerHTML = '';
+
+  flightsData.forEach(flight => {
+    // Filter flights based on destination, search term, and flight type
+    if (
+      (selectedDestination === '' || flight.destination === selectedDestination) &&
+      (flight.flightNumber.toLowerCase().includes(searchTerm) ||
+       flight.airline.toLowerCase().includes(searchTerm)) &&
+      (showArrivals && flight.type === 'arrival' || !showArrivals && flight.type === 'departure')
+    ) {
+      addFlightToList(flight);
+    }
+  });
+}
+
+
+// Function to show all flights
+function showAllFlights() {
+  document.getElementById('destination-select').value = '';
+  document.getElementById('search-input').value = '';
+  const flightsList = document.getElementById('flights-list');
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+  const showArrivals = flightTypeSwitch.checked; // true for arrivals, false for departures
+
+  flightsList.innerHTML = '';
+  flightsData.forEach(flight => {
+    if ((showArrivals && flight.type === 'arrival') || (!showArrivals && flight.type === 'departure')) {
+      addFlightToList(flight);
+    }
+  });
+}
+
+
+// Function to add a flight to the list
+function addFlightToList(flight) {
+  const flightsList = document.getElementById('flights-list');
+  const listItem = document.createElement('ons-list-item');
+  listItem.setAttribute('expandable');
+  listItem.setAttribute('id', `flight-${flight.id}`);
+
+  const headerHTML = `
+    <div class="left">
+      <ons-icon icon="fa-plane" class="list-item__icon"></ons-icon>
+    </div>
+    <div class="center">
+      <span class="list-item__title">${flight.airline} - ${flight.flightNumber}</span>
+      <span class="list-item__subtitle">${flight.destination} (${flight.iata})</span>
+    </div>
+    <div class="right">
+      <span class="time">${flight.time}</span>
+    </div>
+  `;
+
+  const expandedHTML = `
+    <div class="expandable-content">
+      <ons-list>
+        <ons-list-item><div class="left">Aircraft:</div><div class="center">${flight.aircraft}</div></ons-list-item>
+        <ons-list-item><div class="left">Days:</div><div class="center">${flight.days}</div></ons-list-item>
+        <ons-list-item><div class="left">Start Date:</div><div class="center">${flight.startDate}</div></ons-list-item>
+        <ons-list-item><div class="left">End Date:</div><div class="center">${flight.endDate}</div></ons-list-item>
+        <ons-list-item><div class="left">Type:</div><div class="center">${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</div></ons-list-item>
+      </ons-list>
+    </div>
+  `;
+
+  listItem.innerHTML = headerHTML + expandedHTML;
+  flightsList.appendChild(listItem);
+}
+
+// Function to clear flights
+function clearFlights() {
+  const flightsList = document.getElementById('flights-list');
+  flightsList.innerHTML = '';
+  document.getElementById('destination-select').value = '';
+  document.getElementById('search-input').value = '';
+}
+function toggleSwitch(switchElement) {
+  // Check the state of the switch
+  const isChecked = switchElement.checked;
+  
+  // Update the displayed flights based on the new switch state
+  filterFlights();
+}
+
+// Show all flights when the page loads
+window.onload = showAllFlights;
+</script>
+</body>
+</html>
