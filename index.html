@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tivat Winter Timetable 2024-2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+    <nav class="bg-white border-gray-200 dark:bg-gray-800">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tivat Winter Timetable 2024-2025</span>
+            </a>
+            <div class="flex md:order-2">
+                <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+            <p class="font-bold">Warning</p>
+            <p>This is the preliminary flight schedule for the winter season from October 27, 2024, to March 29, 2025. Please note that airlines retain the right to make changes to the flight timetable.</p>
+            <a href="https://vochaneca.github.io/LYTV_Winter24_25_Rev0_02SEP2024.pdf" download class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <i class="fas fa-file-pdf mr-2"></i> Download Timetable
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="destination-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select destination</label>
+                <select id="destination-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">All destinations</option>
+                    <option value="Belgrade, Serbia">Belgrade, Serbia (BEG)</option>
+                    <option value="Berlin, Germany">Berlin, Germany (BER)</option>
+                    <option value="Istanbul, Turkey">Istanbul, Turkey (IST)</option>
+                </select>
+            </div>
+            <div>
+                <label for="search-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search flights</label>
+                <input type="text" id="search-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by flight number or airline">
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="flight-type-switch" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Show Arrivals</span>
+            </label>
+        </div>
+
+        <div class="mb-6">
+            <label for="date-picker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Date:</label>
+            <div class="flex items-center">
+                <input type="date" id="date-picker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <button id="filter-button" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Filter Flights</button>
+            </div>
+        </div>
+
+        <div id="flights-list" class="space-y-4">
+            <!-- Flights will be dynamically added here -->
+        </div>
+
+        <div class="mt-6 flex justify-center space-x-4">
+            <button onclick="showAllFlights()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <i class="fas fa-plane mr-2"></i> Show All Flights
+            </button>
+            <button onclick="clearFlights()" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
+                <i class="fas fa-times-circle mr-2"></i> Clear
+            </button>
+        </div>
+    </div>
+
+<script>
+const flightsData = [
+
+  { id: 1, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 151", airline: "Air Montenegro", aircraft: "E195", days: 1, startDate: "28-10-2024", endDate: "29-03-2025", time: "9:50", type: "arrival" },
+  { id: 2, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 153", airline: "Air Montenegro", aircraft: "E195", days: 2, startDate: "29-10-2024", endDate: "25-03-2025", time: "16:00", type: "arrival" },
+  { id: 3, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5361", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "8:30", type: "arrival" },
+  { id: 4, destination: "Istanbul, Turkey", iata: "IST", flightNumber: "4O 401", airline: "Air Montenegro", aircraft: "E195", days: 3, startDate: "28-10-2024", endDate: "29-03-2025", time: "15:30", type: "arrival" },
+
+
+  { id: 5, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 680", airline: "Air Serbia", aircraft: "AT72", days: "1,3,4,6,7", startDate: "27-10-2024", endDate: "29-03-2025", time: "8:10", type: "arrival" },
+  { id: 6, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 682", airline: "Air Serbia", aircraft: "E195", days: "1,5,7", startDate: "27-10-2024", endDate: "17-01-2025", time: "14:35", type: "arrival" },
+  { id: 7, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5361", airline: "Easy Jet Europe", aircraft: "A319", days: 2, startDate: "29-10-2024", endDate: "29-10-2024", time: "8:30", type: "arrival" },
+  { id: 8, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8811", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "12:40", type: "arrival" },
+  { id: 9, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 175", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "9:45", type: "arrival" },
+
+
+  { id: 10, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 150", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4,6", startDate: "28-10-2024", endDate: "29-03-2025", time: "7:30", type: "departure" },
+  { id: 11, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5362", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "9:10", type: "departure" },
+  { id: 12, destination: "Istanbul, Turkey", iata: "IST", flightNumber: "4O 400", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4", startDate: "28-10-2024", endDate: "29-03-2025", time: "11:10", type: "departure" },
+  { id: 13, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8812", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "13:20", type: "departure" },
+  { id: 14, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 176", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "10:45", type: "departure" },
+
+
+  { id: 15, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 152", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4,6", startDate: "28-10-2024", endDate: "29-03-2025", time: "7:30", type: "departure" },
+  { id: 16, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5362", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "9:10", type: "departure" },
+
+  { id: 17, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8812", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "13:20", type: "departure" },
+  { id: 18, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 176", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "10:45", type: "departure" },
+
+  { id: 19, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 681", airline: "Air Serbia", aircraft: "AT72",  days: "1,3,4,6,7", startDate: "27-10-2024", endDate: "29-03-2025", time: "8:40",type: "departure" },
+  { id: 20, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 683", airline: "Air Serbia", aircraft: "E195", days: "1,5,7", startDate: "27-10-2024", endDate: "17-01-2025", time: "15:20",  type: "departure" }
+
+
+];
+
+function parseDate(dateStr) {
+  const [day, month, year] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatTime(timeStr) {
+  return timeStr;
+}
+
+function getDayNumber(date) {
+  return (date.getDay() + 6) % 7 + 1;
+}
+
+function formatDateToDMY(dateStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`;
+}
+
+// Updated function to filter flights by date
+function filterFlightsByDate() {
+  const selectedDateStr = document.getElementById('date-picker').value;
+  if (!selectedDateStr) {
+    alert('Please select a date.');
+    return;
+  }
+  
+  const formattedSelectedDate = formatDateToDMY(selectedDateStr);
+  const selectedDate = parseDate(formattedSelectedDate);
+  const selectedDayNumber = getDayNumber(selectedDate);
+  const flightsList = document.getElementById('flights-list');
+
+  flightsList.innerHTML = '';
+
+  const filteredFlights = flightsData
+    .filter(flight => {
+      const startDate = parseDate(flight.startDate);
+      const endDate = parseDate(flight.endDate);
+      const isInDateRange = selectedDate >= startDate && selectedDate <= endDate;
+      
+      const days = typeof flight.days === 'string' ? flight.days.split(',').map(Number) : [flight.days];
+      const isOnDay = days.includes(selectedDayNumber);
+      
+      return isInDateRange && isOnDay;
+    })
+    .sort((a, b) => {
+      const timeA = a.time.split(':').map(Number);
+      const timeB = b.time.split(':').map(Number);
+      return timeA[0] - timeB[0] || timeA[1] - timeB[1];
+    });
+
+  filteredFlights.forEach(flight => {
+    addFlightToList(flight);
+  });
+}
+
+// Updated function to filter flights
+function filterFlights() {
+  const destinationSelect = document.getElementById('destination-select');
+  const searchInput = document.getElementById('search-input');
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+
+  const selectedDestination = destinationSelect.value;
+  const searchTerm = searchInput.value.toLowerCase();
+  const showArrivals = flightTypeSwitch.checked;
+  const flightsList = document.getElementById('flights-list');
+  
+  flightsList.innerHTML = '';
+
+  flightsData.forEach(flight => {
+    if (
+      (selectedDestination === '' || flight.destination === selectedDestination) &&
+      (flight.flightNumber.toLowerCase().includes(searchTerm) ||
+       flight.airline.toLowerCase().includes(searchTerm)) &&
+      (showArrivals && flight.type === 'arrival' || !showArrivals && flight.type === 'departure')
+    ) {
+      addFlightToList(flight);
+    }
+  });
+}
+
+// Updated function to show all flights
+function showAllFlights() {
+  document.getElementById('destination-select').value = '';
+  document.getElementById('search-input').value = '';
+  const flightsList = document.getElementById('flights-list');
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+  const showArrivals = flightTypeSwitch.checked;
+
+  flightsList.innerHTML = '';
+  flightsData.forEach(flight => {
+    if ((showArrivals && flight.type === 'arrival') || (!showArrivals && flight.type === 'departure')) {
+      addFlightToList(flight);
+    }
+  });
+}
+
+// Updated function to add a flight to the list
+function addFlightToList(flight) {
+  const flightsList = document.getElementById('flights-list');
+  const flightItem = document.createElement('div');
+  flightItem.className = 'bg-white dark:bg-gray-800 shadow-md rounded-lg p-4';
+  flightItem.setAttribute('id', `flight-${flight.id}`);
+
+  const icon = flight.type === 'arrival' ? 'fa-plane-arrival' : 'fa-plane-departure';
+
+  flightItem.innerHTML = `
+    <div class="flex justify-between items-center mb-2">
+      <div>
+        <i class="fas ${icon} text-blue-500 mr-2"></i>
+        <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
+      </div>
+      <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTime(flight.time)}</span>
+    </div>
+    <p class="text-gray-600 dark:text-gray-400">${flight.destination} (${flight.iata})</p>
+    <button class="mt-2 text-blue-600 hover:underline" onclick="toggleFlightDetails(${flight.id})">Show Details</button>
+    <div id="details-${flight.id}" class="hidden mt-2">
+      <p><span class="font-semibold">Aircraft:</span> ${flight.aircraft}</p>
+      <p><span class="font-semibold">Days:</span> ${formatDaysAsWeek(flight.days)}</p>
+      <p><span class="font-semibold">Start Date:</span> ${flight.startDate}</p>
+      <p><span class="font-semibold">End Date:</span> ${flight.endDate}</p>
+      <p><span class="font-semibold">Type:</span> ${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</p>
+    </div>
+  `;
+
+  flightsList.appendChild(flightItem);
+}
+
+// New function to toggle flight details
+function toggleFlightDetails(flightId) {
+  const detailsElement = document.getElementById(`details-${flightId}`);
+  detailsElement.classList.toggle('hidden');
+}
+
+// Function to clear flights (unchanged)
+function clearFlights() {
+  const flightsList = document.getElementById('flights-list');
+  flightsList.innerHTML = '';
+  document.getElementById('destination-select').value = '';
+  document.getElementById('search-input').value = '';
+}
+
+// Function to format days as week (unchanged)
+function formatDaysAsWeek(days) {
+  if (typeof days !== 'string') {
+    days = String(days);
+  }
+  const daysArray = days.split(',').map(Number);
+  const week = ['-', '-', '-', '-', '-', '-', '-'];
+  daysArray.forEach(day => {
+    if (day >= 1 && day <= 7) {
+      week[day - 1] = day;
+    }
+  });
+  return week.join(' ');
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  showAllFlights();
+  
+  document.getElementById('destination-select').addEventListener('change', filterFlights);
+  document.getElementById('search-input').addEventListener('input', filterFlights);
+  document.getElementById('flight-type-switch').addEventListener('change', filterFlights);
+  document.getElementById('filter-button').addEventListener('click', filterFlightsByDate);
+  
+  // Theme toggle
+  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+  // Change the icons inside the button based on previous settings
+  if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    themeToggleLightIcon.classList.remove('hidden');
+  } else {
+    themeToggleDarkIcon.classList.remove('hidden');
+  }
+
+  const themeToggleBtn = document.getElementById('theme-toggle');
+
+  themeToggleBtn.addEventListener('click', function() {
+    // toggle icons inside button
+    themeToggleDarkIcon.classList.toggle('hidden');
+    themeToggleLightIcon.classList.toggle('hidden');
+
+    // if set via local storage previously
+    if (localStorage.getItem('color-theme')) {
+      if (localStorage.getItem('color-theme') === 'light') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      }
+    } else {
+      // if NOT set via local storage previously
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
