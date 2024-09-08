@@ -123,23 +123,29 @@ function deg2rad(deg) {
 function calculateFlightTime(departureIATA, arrivalIATA) {
     const departure = airportCoordinates[departureIATA.toUpperCase()];
     const arrival = airportCoordinates[arrivalIATA.toUpperCase()];
-
+  
     if (!departure || !arrival) {
-        return "Invalid IATA code(s). Please try again.";
+      return "Invalid IATA code(s). Please try again.";
     }
-
+  
     const distance = getDistanceFromLatLonInKm(
-        departure.lat,
-        departure.lon,
-        arrival.lat,
-        arrival.lon
+      departure.lat,
+      departure.lon,
+      arrival.lat,
+      arrival.lon
     );
-
+  
     const flightTimeHours = distance / 800; // Assume 800 km/h average speed
     const flightTimeMinutes = flightTimeHours * 60;
-
-    return `The flight time from ${departureIATA} to ${arrivalIATA} is approximately ${Math.round(flightTimeHours)} hours or ${Math.round(flightTimeMinutes)} minutes.`;
-}
+  
+    // Add 15 minutes to the flight time
+    const totalFlightTimeMinutes = Math.round(flightTimeMinutes) + 17;
+  
+    const totalFlightTimeHours = Math.floor(totalFlightTimeMinutes / 60);
+    const remainingMinutes = totalFlightTimeMinutes % 60;
+  
+    return `The flight time from ${departureIATA} to ${arrivalIATA} is approximately ${totalFlightTimeHours} hours and ${remainingMinutes} minutes.`;
+  }
 
 // Event listener for the button click
 document.getElementById("calculate").addEventListener("click", function() {
