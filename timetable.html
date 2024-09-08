@@ -5,24 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tivat Winter Timetable 2024-2025</title>
     <meta name="description" content="Find the latest Tivat Airport timetable with arrivals and departures schedule. Search for your flight to Tivat Airport.">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- Load Tailwind CSS CDN (no change needed) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-
-    <script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    // ... any other configurations
-  }
-</script>
+<!-- Load Flowbite CSS -->
 <link href="./flowbite.min.css" rel="stylesheet" />
-<script src="./flowbite.min.js"></script>
 
-    <style>
-    
-    html {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+<!-- Defer non-essential scripts -->
+<script src="https://cdn.tailwindcss.com" ></script>
+<script src="./flowbite.min.js" ></script>
+
+<style>
         body {
             margin: 0;
             padding: 0;
@@ -30,100 +23,99 @@
             background-position: center;
             transition: background-image 1s ease-in-out;
         }
-        .hero {
-            position: relative;
-            height: 300px; /* Smaller height for hero */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            overflow: hidden;
-        }
-        .hero-text {
-            z-index: 10;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.5;
-            transition: background-image 2s ease-in-out;
-        }
-        /* Background image carousel */
-        @keyframes rotateBackgrounds {
-            0%   { background-image: url('tivat1.jpg'); }
-            14%  { background-image: url('tivat2.jpg'); }
-            28%  { background-image: url('tivat3.jpg'); }
-            42%  { background-image: url('tivat4.jpg'); }
-            57%  { background-image: url('tivat5.jpg'); }
-            71%  { background-image: url('tivat6.jpg'); }
-            85%  { background-image: url('tivat7.jpg'); }
-            100% { background-image: url('tivat1.jpg'); }
-        }
-        .hero::before {
-            animation: rotateBackgrounds 14s infinite;
-        }
     </style>
-</head>
 
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    // ... any other configurations
+  }
+</script>
+
+
+<script>
+  // Theme toggle
+  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  
+  // Function to set the theme
+  function setTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      themeToggleLightIcon.classList.remove('hidden');
+      themeToggleDarkIcon.classList.add('hidden');
+      localStorage.setItem('color-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      themeToggleDarkIcon.classList.remove('hidden');
+      themeToggleLightIcon.classList.add('hidden');
+      localStorage.setItem('color-theme', 'light');
+    }
+  }
+  
+  // Set initial theme
+  if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    setTheme('dark');
+  } else {
+    setTheme('light');
+  }
+  
+  // Toggle theme when button is clicked
+  themeToggleBtn.addEventListener('click', function() {
+    if (document.documentElement.classList.contains('dark')) {
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
+  });
+    </script>
+</head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
 
-<!-- Navbar with Hamburger Menu -->
-<nav class="bg-white border-gray-200 dark:bg-gray-800">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex flex-col items-start">
-            <span class="text-2xl font-semibold whitespace-nowrap dark:text-white">Tivat Winter Timetable</span>
-            <span class="text-2xl font-semibold whitespace-nowrap dark:text-white">2024-2025</span>
-        </a>
- <!-- Theme toggle button -->
-<!-- Theme toggle button -->
-<div class="flex items-center space-x-4">
-  <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
-    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.293 13.707A8 8 0 1110 2a8 8 0 007.293 11.707zM10 18a8 8 0 008-8 8 8 0 10-8 8z" fill-rule="evenodd" clip-rule="evenodd"></path>
-    </svg>
-    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 3a1 1 0 100-2 1 1 0 000 2zM10 18a1 1 0 100 2 1 1 0 000-2zM4.22 4.22a1 1 0 111.42-1.42 1 1 0 01-1.42 1.42zM14.64 14.64a1 1 0 011.42 0 1 1 0 010 1.42 1 1 0 01-1.42 0zM3 10a1 1 0 100-2 1 1 0 000 2zm14 0a1 1 0 100-2 1 1 0 000 2zM4.22 15.78a1 1 0 011.42 0 1 1 0 010 1.42 1 1 0 01-1.42 0zm10.42 0a1 1 0 010-1.42 1 1 0 011.42 1.42 1 1 0 01-1.42 0z"></path>
-    </svg>
-  </button>
 
-  <!-- Hamburger Menu Button -->
-  <button data-collapse-toggle="navbar-hamburger" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
-    <span class="sr-only">Open main menu</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-    </svg>
-  </button>
-</div>
-<div class="hidden w-full md:block md:w-auto" id="navbar-hamburger">
-  <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+
+
+  <nav class="bg-white border-gray-200 dark:bg-gray-800">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+ <!-- Title in two rows with left alignment -->
+ <a href="#" class="flex flex-col items-start">
+  <span class="text-2xl font-semibold whitespace-nowrap dark:text-white">Tivat Winter Timetable</span>
+  <span class="text-2xl font-semibold whitespace-nowrap dark:text-white">2024-2025</span>
+</a>
+
+        <div class="flex items-center md:order-2">
+            <!-- Dark/Light theme toggle button -->
+            <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+
+            <!-- Hamburger menu button -->
+            <button id="hamburger-btn" data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
+                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M3 5h14a1 1 0 010 2H3a1 1 0 010-2zM3 10h14a1 1 0 010 2H3a1 1 0 010-2zM3 15h14a1 1 0 010 2H3a1 1 0 010-2z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+<!-- Hamburger menu items -->
+<div class="hidden w-full md:flex md:w-auto" id="mobile-menu">
+  <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
       <li>
-          <a href="#features" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-              <i class="fas fa-list text-orange-500 dark:text-blue-700"></i> Features
-          </a>
+          <button data-modal-target="info-modal" data-modal-toggle="info-modal" class="flex items-center py-2 pl-3 pr-4 text-gray-700 rounded md:bg-transparent md:p-0 dark:text-white">
+              <i class="fas fa-info-circle mr-2"></i> Info
+          </button>
       </li>
       <li>
-          <a href="#contact" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-              <i class="fas fa-envelope text-orange-500 dark:text-blue-700"></i> Contact
-          </a>
-      </li>
-      <li>
-          <a href="timetable.html" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-              <i class="fas fa-calendar-alt text-orange-500 dark:text-blue-700"></i> Timetable
-          </a>
-      </li>
-      <li>
-          <a href="live.html" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-              <i class="fas fa-plane text-orange-500 dark:text-blue-700"></i> Live Flights
-          </a>
+          <button data-modal-target="about-modal" data-modal-toggle="about-modal" class="flex items-center py-2 pl-3 pr-4 text-gray-700 rounded md:bg-transparent md:p-0 dark:text-white">
+              <i class="fas fa-user-circle mr-2"></i> About
+          </button>
       </li>
   </ul>
 </div>
@@ -131,100 +123,483 @@
     </div>
 </nav>
 
-<!-- Hero Section with changing background -->
-<section class="hero">
-    <div class="hero-text">
-        Welcome to Tivat Winter Timetable 2024-2025
-    </div>
-</section>
-<!-- Features Section -->
-<!-- Features Section -->
-<section id="features" class="py-16 bg-gray-100 dark:bg-gray-900">
-  <div class="container mx-auto px-4 text-center">
-      <h2 class="text-4xl font-bold mb-8">Features</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Feature 1: Timetable -->
-          <a href="timetable.html">
-            <div class="bg-orange-200 dark:bg-orange-700 p-8 rounded-lg shadow-lg">
-                <h3 class="text-2xl font-semibold mb-4">Timetable</h3>
-                <p>Check the latest schedule for all flights at Tivat Airport.</p>
+<!-- Info Modal -->
+<div id="info-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="p-6 text-center">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                    Non-official LYTV Timetable 2024-2025
+                </h3>
+                <button type="button" class="mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800" data-modal-hide="info-modal">Close</button>
             </div>
-          </a>
-          <!-- Feature 2: Daily Flights -->
-          <div class="bg-green-200 dark:bg-green-700 p-8 rounded-lg shadow-lg">
-              <h3 class="text-2xl font-semibold mb-4">Daily Flights</h3>
-              <p>Get a quick overview of daily departures and arrivals.</p>
-          </div>
-          <!-- Feature 3: Baggage Rules -->
-          <div class="bg-blue-200 dark:bg-blue-700 p-8 rounded-lg shadow-lg">
-              <h3 class="text-2xl font-semibold mb-4">Baggage Rules</h3>
-              <p>Learn about the baggage rules for each airline operating at Tivat Airport.</p>
-          </div>
-      </div>
-  </div>
-</section>
+        </div>
+    </div>
+</div>
+
+<!-- About Modal -->
+<div id="about-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="p-6 text-center">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                    <strong>Made with love ❤️ by Alen</strong>
+                </h3>
+                <button type="button" class="mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800" data-modal-hide="about-modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-<!-- Contact Section -->
-<section id="contact" class="py-16 bg-gray-200 dark:bg-gray-700">
-  <div class="container mx-auto px-4 text-center">
-      <h2 class="text-4xl font-bold mb-8">Contact Us</h2>
-      <p class="text-xl mb-4">For inquiries, please contact us:</p>
-      <p class="text-lg">Phone: +382-20-123-456</p>
-      <p class="text-lg">Email: info@tivatairport.com</p>
-  </div>
-</section>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+            <p class="font-bold">Warning</p>
+            <p>This is the preliminary flight schedule for the winter season from October 27, 2024, to March 29, 2025. Please note that airlines retain the right to make changes to the flight timetable.</p>
+            <a href="https://vochaneca.github.io/LYTV_Winter24_25_Rev0_02SEP2024.pdf" download class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <i class="fas fa-file-pdf mr-2"></i> Download Timetable
+            </a>
+        </div>
 
-<!-- Footer -->
-<footer class="bg-gray-100 dark:bg-gray-900 py-4">
-  <div class="container mx-auto text-center">
-      <p class="text-gray-500 dark:text-gray-400">FlatFile Vanilla JS code: Alen 2024</p>
-  </div>
-</footer>
-<!-- Scripts for theme switching -->
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="destination-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select destination</label>
+                <select id="destination-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">All destinations</option>
+                    <option value="Belgrade, Serbia">Belgrade, Serbia (BEG)</option>
+                    <option value="Berlin, Germany">Berlin, Germany (BER)</option>
+                    <option value="Istanbul, Turkey">Istanbul, Turkey (IST)</option>
+                </select>
+            </div>
+            <div>
+                <label for="search-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search flights</label>
+                <input type="text" id="search-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by flight number or airline">
+            </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="flight-type-switch" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span id="flight-type-label" class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Show Arrivals</span>
+          </label>
+        </div>
+
+        <div class="mb-6">
+            <label for="date-picker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Date:</label>
+            <div class="flex items-center">
+                <input type="date" id="date-picker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <button id="filter-button" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Filter Flights</button>
+            </div>
+        </div>
+
+        <div id="flights-list" class="space-y-4">
+            <!-- Flights will be dynamically added here -->
+        </div>
+
+        <div class="mt-6 flex justify-center space-x-4">
+            <button onclick="showAllFlights()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <i class="fas fa-plane mr-2"></i> Show All Flights
+            </button>
+            <button onclick="clearFlights()" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
+                <i class="fas fa-times-circle mr-2"></i> Clear
+            </button>
+        </div>
+    </div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const darkIcon = document.getElementById('theme-toggle-dark-icon');
-        const lightIcon = document.getElementById('theme-toggle-light-icon');
+const flightsData = [
 
-        // Function to enable dark mode
-        function enableDarkMode() {
-            document.documentElement.classList.add('dark');
-            darkIcon.classList.remove('hidden');
-            lightIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'dark');
-        }
+  { id: 1, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 151", airline: "Air Montenegro", aircraft: "E195", days: 1, startDate: "28-10-2024", endDate: "29-03-2025", time: "9:50", type: "arrival" },
+  { id: 2, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 153", airline: "Air Montenegro", aircraft: "E195", days: 2, startDate: "29-10-2024", endDate: "25-03-2025", time: "16:00", type: "arrival" },
+  { id: 3, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5361", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "8:30", type: "arrival" },
+  { id: 4, destination: "Istanbul, Turkey", iata: "IST", flightNumber: "4O 401", airline: "Air Montenegro", aircraft: "E195", days: 3, startDate: "28-10-2024", endDate: "29-03-2025", time: "15:30", type: "arrival" },
 
-        // Function to enable light mode
-        function enableLightMode() {
-            document.documentElement.classList.remove('dark');
-            darkIcon.classList.add('hidden');
-            lightIcon.classList.remove('hidden');
-            localStorage.setItem('theme', 'light');
-        }
 
-        // Initial theme check
-        const currentTheme = localStorage.getItem('theme');
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  { id: 5, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 680", airline: "Air Serbia", aircraft: "AT72", days: "1,3,4,6,7", startDate: "27-10-2024", endDate: "29-03-2025", time: "8:10", type: "arrival" },
+  { id: 6, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 682", airline: "Air Serbia", aircraft: "E195", days: "1,5,7", startDate: "27-10-2024", endDate: "17-01-2025", time: "14:35", type: "arrival" },
+  { id: 7, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5361", airline: "Easy Jet Europe", aircraft: "A319", days: 2, startDate: "29-10-2024", endDate: "29-10-2024", time: "8:30", type: "arrival" },
+  { id: 8, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8811", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "12:40", type: "arrival" },
+  { id: 9, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 175", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "9:45", type: "arrival" },
 
-        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme)) {
-            enableDarkMode();
-        } else {
-            enableLightMode();
-        }
 
-        // Toggle theme on button click
-        themeToggleBtn.addEventListener('click', function () {
-            if (document.documentElement.classList.contains('dark')) {
-                enableLightMode();
-            } else {
-                enableDarkMode();
-            }
-        });
+  { id: 10, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 150", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4,6", startDate: "28-10-2024", endDate: "29-03-2025", time: "7:30", type: "departure" },
+  { id: 11, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5362", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "9:10", type: "departure" },
+  { id: 12, destination: "Istanbul, Turkey", iata: "IST", flightNumber: "4O 400", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4", startDate: "28-10-2024", endDate: "29-03-2025", time: "11:10", type: "departure" },
+  { id: 13, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8812", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "13:20", type: "departure" },
+  { id: 14, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 176", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "10:45", type: "departure" },
+
+
+  { id: 15, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "4O 152", airline: "Air Montenegro", aircraft: "E195", days: "1,3,4,6", startDate: "28-10-2024", endDate: "29-03-2025", time: "7:30", type: "departure" },
+  { id: 16, destination: "Berlin, Germany", iata: "BER", flightNumber: "EC 5362", airline: "Easy Jet Europe", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "27-10-2024", time: "9:10", type: "departure" },
+
+  { id: 17, destination: "London (Gatwick), UK", iata: "LGW", flightNumber: "U2 8812", airline: "Easy Jet", aircraft: "A320", days: 7, startDate: "27-10-2024", endDate: "03-11-2024", time: "13:20", type: "departure" },
+  { id: 18, destination: "Tel Aviv, Israel", iata: "TLV", flightNumber: "6H 176", airline: "Israir", aircraft: "E195", days: "4,7", startDate: "27-10-2024", endDate: "01-12-2024", time: "10:45", type: "departure" },
+
+  { id: 19, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 681", airline: "Air Serbia", aircraft: "AT72",  days: "1,3,4,6,7", startDate: "27-10-2024", endDate: "29-03-2025", time: "8:40",type: "departure" },
+  { id: 20, destination: "Belgrade, Serbia", iata: "BEG", flightNumber: "JU 683", airline: "Air Serbia", aircraft: "E195", days: "1,5,7", startDate: "27-10-2024", endDate: "17-01-2025", time: "15:20",  type: "departure" }
+
+
+];
+
+function parseDate(dateStr) {
+  const [day, month, year] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatTime(timeStr) {
+  return timeStr;
+}
+
+function formatTimeLT(time) {
+  // Split the time into hours and minutes
+  let [hours, minutes] = time.split(':').map(Number);
+  
+  // Ensure the hours and minutes are formatted as two digits
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  
+  return `${hours}:${minutes}`;
+}
+
+function getDayNumber(date) {
+  return (date.getDay() + 6) % 7 + 1;
+}
+
+function formatDateToDMY(dateStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`;
+}
+
+// Updated function to filter flights by date
+function filterFlightsByDate() {
+  const selectedDateStr = document.getElementById('date-picker').value;
+  if (!selectedDateStr) {
+    alert('Please select a date.');
+    return;
+  }
+  
+  const formattedSelectedDate = formatDateToDMY(selectedDateStr);
+  const selectedDate = parseDate(formattedSelectedDate);
+  const selectedDayNumber = getDayNumber(selectedDate);
+  const flightsList = document.getElementById('flights-list');
+
+  flightsList.innerHTML = '';
+
+  const filteredFlights = flightsData
+    .filter(flight => {
+      const startDate = parseDate(flight.startDate);
+      const endDate = parseDate(flight.endDate);
+      const isInDateRange = selectedDate >= startDate && selectedDate <= endDate;
+      
+      const days = typeof flight.days === 'string' ? flight.days.split(',').map(Number) : [flight.days];
+      const isOnDay = days.includes(selectedDayNumber);
+      
+      return isInDateRange && isOnDay;
+    })
+    .sort((a, b) => {
+      const timeA = a.time.split(':').map(Number);
+      const timeB = b.time.split(':').map(Number);
+      return timeA[0] - timeB[0] || timeA[1] - timeB[1];
     });
+
+  filteredFlights.forEach(flight => {
+    addFlightToList(flight);
+  });
+}
+
+// Updated function to filter flights
+function filterFlights() {
+    const destinationSelect = document.getElementById('destination-select');
+    const searchInput = document.getElementById('search-input');
+    const flightTypeSwitch = document.getElementById('flight-type-switch');
+
+    const selectedDestination = destinationSelect.value;
+    const searchTerm = searchInput.value.toLowerCase();
+    const showArrivals = flightTypeSwitch.checked;
+    const flightsList = document.getElementById('flights-list');
+    
+    flightsList.innerHTML = '';
+
+    flightsData.forEach(flight => {
+        if (
+            (selectedDestination === '' || flight.destination === selectedDestination) &&
+            (flight.flightNumber.toLowerCase().includes(searchTerm) ||
+             flight.airline.toLowerCase().includes(searchTerm)) &&
+            ((showArrivals && flight.type === 'arrival') || (!showArrivals && flight.type === 'departure'))
+        ) {
+            addFlightToList(flight);
+        }
+    });
+}
+
+// Updated function to show all flights
+function showAllFlights() {
+  document.getElementById('destination-select').value = '';
+  document.getElementById('search-input').value = '';
+  const flightsList = document.getElementById('flights-list');
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+  const showArrivals = flightTypeSwitch.checked;
+
+  flightsList.innerHTML = '';
+  flightsData.forEach(flight => {
+    if ((showArrivals && flight.type === 'arrival') || (!showArrivals && flight.type === 'departure')) {
+      addFlightToList(flight);
+    }
+  });
+}
+
+// Updated function to add a flight to the list
+function addFlightToList(flight) {
+    const flightsList = document.getElementById('flights-list');
+    const flightItem = document.createElement('div');
+    flightItem.className = 'bg-white dark:bg-gray-800 shadow-md rounded-lg p-4';
+    flightItem.setAttribute('id', `flight-${flight.id}`);
+
+    // Mapping of IATA codes to ICAO codes and airline websites
+    const iataToIcao = {
+    'U2': ['EZY', 'https://www.easyjet.com'],
+    'EC': ['EJU', 'https://www.easyjet.com'], 
+    'JU': ['ASL', 'https://www.airserbia.com'],
+    '4O': ['MNE', 'https://www.airmontenegro.com'],
+    '6H': ['ISR', 'https://www.israirairlines.com'],
+    'AF': ['AFR', 'https://www.airfrance.com'],
+    'BA': ['BAW', 'https://www.britishairways.com'],
+    'LH': ['DLH', 'https://www.lufthansa.com'],
+    'EK': ['UAE', 'https://www.emirates.com'],
+    'QR': ['QTR', 'https://www.qatarairways.com'],
+    'MS': ['MSR', 'https://www.egyptair.com'],
+    'LY': ['ELY', 'https://www.elal.com'],
+    'TK': ['THY', 'https://www.turkishairlines.com'],
+    'SV': ['SVA', 'https://www.saudia.com'],
+    'SU': ['AFL', 'https://www.aeroflot.com'],
+    'OS': ['AUA', 'https://www.austrian.com'],
+    'SN': ['BEL', 'https://www.brusselsairlines.com'],
+    'AZ': ['AZA', 'https://www.alitalia.com'],
+    'IB': ['IBE', 'https://www.iberia.com'],
+    'VY': ['VLG', 'https://www.vueling.com'],
+    'FR': ['RYR', 'https://www.ryanair.com'],
+    'W6': ['WZZ', 'https://wizzair.com'],
+    'OK': ['CSA', 'https://www.czechairlines.com'],
+    'HV': ['HVN', 'https://www.transaviaairlines.nl'],
+    'UX': ['AEA', 'https://www.aireuropa.com'],
+    'WK': ['EDW', 'https://www.edelweissair.ch'],
+    'DS': ['EZS', 'https://www.easyjet.com/en/switzerland'],
+    'EW': ['EWG', 'https://www.eurowings.com'],
+    'BR': ['EVA', 'https://www.evaair.com'],
+    'CI': ['CAL', 'https://www.china-airlines.com'],
+    'NH': ['ANA', 'https://www.ana.co.jp'],
+    'JL': ['JAL', 'https://www.jal.com'],
+    'CX': ['CPA', 'https://www.cathaypacific.com'],
+    'SQ': ['SIA', 'https://www.singaporeair.com'],
+    'OZ': ['AAR', 'https://flyasiana.com'],
+    'VN': ['HVN', 'https://www.vietnamairlines.com'],
+    'TG': ['THA', 'https://www.thaiairways.com'],
+    'AK': ['AKK', 'https://www.airasia.com'],
+    'ET': ['ETH', 'https://www.ethiopianairlines.com'],
+    'LA': ['LAN', 'https://www.latam.com'],
+    'AA': ['AAL', 'https://www.aa.com'],
+    'DL': ['DAL', 'https://www.delta.com'],
+    'UA': ['UAL', 'https://www.united.com'],
+    'AC': ['ACA', 'https://www.aircanada.com'],
+    'NZ': ['ANZ', 'https://www.airnewzealand.com'],
+    'QF': ['QFA', 'https://www.qantas.com'],
+    '9W': ['JAI', 'https://www.jetairways.com'],
+    'FQ': ['FQF', 'https://www.flybe.com'],
+    'R9': ['RWD', 'https://www.rwandair.com'],
+    'G9': ['ABY', 'https://www.airarabia.com'],
+    'FZ': ['FDB', 'https://www.flydubai.com'],
+    'KU': ['KAC', 'https://www.kuwaitairways.com'],
+    'ME': ['MEA', 'https://www.mea.com.lb'],
+    'RJ': ['RJA', 'https://rj.com']
+};
+
+ // Aircraft Manufacturers List
+ const aircraftManufacturers = {
+    'Airbus': {
+        'types': ['A319', 'A320', 'A321', 'A32N', 'A332', 'A333', 'A342', 'A343', 'A30', 'A380'],
+        'logo': 'airbus_logo.png',
+        'website': 'https://www.airbus.com'
+    },
+    'Boeing': {
+        'types': ['B733', 'B734', 'B735', 'B736', 'B737', 'B738', 'B739', 'B73M', 'B752', 'B753'],
+        'logo': 'boeing_logo.png',
+        'website': 'https://www.boeing.com'
+    },
+    'Embraer': {
+        'types': ['E170', 'E175', 'E190', 'E195', 'E195-E2'],
+        'logo': 'embraer_logo.png',
+        'website': 'https://www.embraer.com'
+    },
+    'ATR': {
+        'types': ['AT4', 'AT7', 'AT72', 'AT75', 'AT76', 'AT42'],  // Add ATR types if needed
+        'logo': 'atr_logo.png',
+        'website': 'https://www.atraircraft.com'
+    }
+};
+     // Extract the IATA code from the flight number
+     const iataCode = flight.flightNumber.slice(0, 2);
+
+// Find the ICAO code and airline URL
+const [icaoCode, airlineUrl] = iataToIcao[iataCode] || ['', ''];
+const flightAwareUrl = `https://www.flightaware.com/live/flight/${icaoCode}${flight.flightNumber}`;
+const logoUrl = `https://www.flightaware.com/images/airline_logos/180px/${icaoCode}.png`;
+const placeholderUrl = 'https://via.placeholder.com/180x120?text=No+Logo'; // Placeholder image URL
+
+  // Extract the IATA code from the flight number
+
+
+// Determine aircraft manufacturer logo
+let manufacturerLogoUrl = '';
+let manufacturerWebsite = '';
+
+Object.keys(aircraftManufacturers).forEach(manufacturer => {
+    if (aircraftManufacturers[manufacturer].types.includes(flight.aircraft)) {
+        manufacturerLogoUrl = `${aircraftManufacturers[manufacturer].logo}`;
+        manufacturerWebsite = aircraftManufacturers[manufacturer].website;
+    }
+});
+
+// Define icon for arrival or departure
+const icon = flight.type === 'arrival' ? 'fa-plane-arrival' : 'fa-plane-departure';
+
+// Create flight item HTML
+flightItem.innerHTML = `
+    <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center">
+            <a href="${flightAwareUrl}" target="_blank" class="flex items-center text-blue-500 hover:underline">
+              <img 
+  src="${logoUrl}" 
+  alt="${flight.airline} logo" 
+  class="w-12 h-auto mr-2" 
+  loading="lazy"
+  onerror="this.src='${placeholderUrl}'">
+
+                <i class="fas ${icon} text-blue-500 mr-2"></i>
+                <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
+            </a>
+        </div>
+        <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTimeLT(flight.time)}</span>
+    </div>
+    <p class="text-gray-600 dark:text-gray-400">${flight.destination} (${flight.iata})</p>
+    <div class="flex justify-between items-center mt-2">
+        <button class="mt-2 text-blue-600 hover:underline" onclick="toggleFlightDetails(${flight.id})">Show Details</button>
+        <a href="${airlineUrl}" target="_blank" class="mt-2 bg-green-300 text-black rounded px-4 py-2 hover:bg-green-400">Buy Ticket</a>
+    </div>
+    <div id="details-${flight.id}" class="hidden mt-2">
+       <p>
+  <span class="font-semibold">Aircraft:</span> 
+  <img 
+    src="${manufacturerLogoUrl}" 
+    alt="${flight.aircraft} logo" 
+    class="w-12 h-auto inline mr-2" 
+    loading="lazy"
+    onerror="this.src='${placeholderUrl}'">
+  ${flight.aircraft}
+</p>
+
+        <p><span class="font-semibold">Days:</span> ${formatDaysAsWeek(flight.days)}</p>
+        <p><span class="font-semibold">Start Date:</span> ${flight.startDate}</p>
+        <p><span class="font-semibold">End Date:</span> ${flight.endDate}</p>
+        <p><span class="font-semibold">Type:</span> ${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</p>
+    </div>
+`;
+
+flightsList.appendChild(flightItem);
+}
+
+// New function to toggle flight details
+function toggleFlightDetails(flightId) {
+  const detailsElement = document.getElementById(`details-${flightId}`);
+  detailsElement.classList.toggle('hidden');
+}
+
+// Function to clear flights (unchanged)
+function clearFlights() {
+  const flightsList = document.getElementById('flights-list');
+  flightsList.innerHTML = '';
+  document.getElementById('destination-select').value = '';
+  document.getElementById('search-input').value = '';
+}
+
+// Function to format days as week (unchanged)
+function formatDaysAsWeek(days) {
+  if (typeof days !== 'string') {
+    days = String(days);
+  }
+  const daysArray = days.split(',').map(Number);
+  const week = ['-', '-', '-', '-', '-', '-', '-'];
+  daysArray.forEach(day => {
+    if (day >= 1 && day <= 7) {
+      week[day - 1] = day;
+    }
+  });
+  return week.join(' ');
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  showAllFlights();
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+    const flightTypeLabel = document.getElementById('flight-type-label');
+
+    flightTypeSwitch.addEventListener('change', function() {
+        flightTypeLabel.textContent = this.checked ? 'Show Arrivals' : 'Show Departures';
+        filterFlights();
+    });
+
+
+  document.getElementById('destination-select').addEventListener('change', filterFlights);
+  document.getElementById('search-input').addEventListener('input', filterFlights);
+  document.getElementById('flight-type-switch').addEventListener('change', filterFlights);
+  document.getElementById('filter-button').addEventListener('click', filterFlightsByDate);
+  
+  // Theme toggle
+  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+  // Change the icons inside the button based on previous settings
+  if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    themeToggleLightIcon.classList.remove('hidden');
+  } else {
+    themeToggleDarkIcon.classList.remove('hidden');
+  }
+
+  const themeToggleBtn = document.getElementById('theme-toggle');
+
+  themeToggleBtn.addEventListener('click', function() {
+    // toggle icons inside button
+    themeToggleDarkIcon.classList.toggle('hidden');
+    themeToggleLightIcon.classList.toggle('hidden');
+
+    // if set via local storage previously
+    if (localStorage.getItem('color-theme')) {
+      if (localStorage.getItem('color-theme') === 'light') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      }
+    } else {
+      // if NOT set via local storage previously
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    }
+  });
+
+  
+});
+
+
 </script>
-
-
+<div style="text-align: center; font-family: 'Inter', sans-serif; color: gray;">
+  Vanilla JS code: Alen 2024 - unofficial build
+</div>
 </body>
 </html>
