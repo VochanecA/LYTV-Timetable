@@ -171,6 +171,17 @@ function formatTime(timeStr) {
   return timeStr;
 }
 
+function formatTimeLT(time) {
+  // Split the time into hours and minutes
+  let [hours, minutes] = time.split(':').map(Number);
+  
+  // Ensure the hours and minutes are formatted as two digits
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  
+  return `${hours}:${minutes}`;
+}
+
 function getDayNumber(date) {
   return (date.getDay() + 6) % 7 + 1;
 }
@@ -273,7 +284,7 @@ function addFlightToList(flight) {
         <i class="fas ${icon} text-blue-500 mr-2"></i>
         <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
       </div>
-      <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTime(flight.time)}</span>
+      <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTimeLT(flight.time)}</span>
     </div>
     <p class="text-gray-600 dark:text-gray-400">${flight.destination} (${flight.iata})</p>
     <button class="mt-2 text-blue-600 hover:underline" onclick="toggleFlightDetails(${flight.id})">Show Details</button>
