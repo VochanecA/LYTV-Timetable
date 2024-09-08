@@ -476,7 +476,13 @@ flightItem.innerHTML = `
     <div class="flex justify-between items-center mb-2">
         <div class="flex items-center">
             <a href="${flightAwareUrl}" target="_blank" class="flex items-center text-blue-500 hover:underline">
-                <img src="${logoUrl}" alt="${flight.airline} logo" class="w-12 h-auto mr-2" onerror="this.src='${placeholderUrl}'">
+            <img 
+    src="${logoUrl}" 
+    alt="${flight.airline} logo" 
+    class="w-12 h-auto mr-2" 
+    loading="lazy" 
+    onerror="this.src='${placeholderUrl}'">
+
                 <i class="fas ${icon} text-blue-500 mr-2"></i>
                 <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
             </a>
@@ -490,7 +496,16 @@ flightItem.innerHTML = `
 
     </div>
     <div id="details-${flight.id}" class="hidden mt-2">
-        <p><span class="font-semibold">Aircraft:</span> <img src="${manufacturerLogoUrl}" alt="${flight.aircraft} logo" class="w-12 h-auto inline mr-2"> ${flight.aircraft}</p>
+<p>
+    <span class="font-semibold">Aircraft:</span> 
+    <img 
+        src="${manufacturerLogoUrl}" 
+        alt="${flight.aircraft} logo" 
+        class="w-12 h-auto inline mr-2" 
+        loading="lazy" 
+        onerror="this.src='${placeholderUrl}'">
+    ${flight.aircraft}
+</p>
         <p><span class="font-semibold">Days:</span> ${formatDaysAsWeek(flight.days)}</p>
         <p><span class="font-semibold">Start Date:</span> ${flight.startDate}</p>
         <p><span class="font-semibold">End Date:</span> ${flight.endDate}</p>
