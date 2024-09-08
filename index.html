@@ -350,51 +350,140 @@ function addFlightToList(flight) {
     flightItem.className = 'bg-white dark:bg-gray-800 shadow-md rounded-lg p-4';
     flightItem.setAttribute('id', `flight-${flight.id}`);
 
-    // Mapping of IATA codes to ICAO codes
+    // Mapping of IATA codes to ICAO codes and airline websites
     const iataToIcao = {
-        'U2': 'EZY',
-        'EC': 'EJU',
-        'JU': 'ASL',
-        '4O': 'MNE',
-        '6H': 'ISR',
-        // Add other mappings as needed
-    };
+    'U2': ['EZY', 'https://www.easyjet.com'],
+    'EC': ['EJU', 'https://www.eurowings.com'], 
+    'JU': ['ASL', 'https://www.airserbia.com'],
+    '4O': ['MNE', 'https://www.airmontenegro.com'],
+    '6H': ['ISR', 'https://www.israirairlines.com'],
+    'AF': ['AFR', 'https://www.airfrance.com'],
+    'BA': ['BAW', 'https://www.britishairways.com'],
+    'LH': ['DLH', 'https://www.lufthansa.com'],
+    'EK': ['UAE', 'https://www.emirates.com'],
+    'QR': ['QTR', 'https://www.qatarairways.com'],
+    'MS': ['MSR', 'https://www.egyptair.com'],
+    'LY': ['ELY', 'https://www.elal.com'],
+    'TK': ['THY', 'https://www.turkishairlines.com'],
+    'SV': ['SVA', 'https://www.saudia.com'],
+    'SU': ['AFL', 'https://www.aeroflot.com'],
+    'OS': ['AUA', 'https://www.austrian.com'],
+    'SN': ['BEL', 'https://www.brusselsairlines.com'],
+    'AZ': ['AZA', 'https://www.alitalia.com'],
+    'IB': ['IBE', 'https://www.iberia.com'],
+    'VY': ['VLG', 'https://www.vueling.com'],
+    'FR': ['RYR', 'https://www.ryanair.com'],
+    'W6': ['WZZ', 'https://wizzair.com'],
+    'OK': ['CSA', 'https://www.czechairlines.com'],
+    'HV': ['HVN', 'https://www.transaviaairlines.nl'],
+    'UX': ['AEA', 'https://www.aireuropa.com'],
+    'WK': ['EDW', 'https://www.edelweissair.ch'],
+    'DS': ['EZS', 'https://www.easyjet.com/en/switzerland'],
+    'EW': ['EWG', 'https://www.eurowings.com'],
+    'BR': ['EVA', 'https://www.evaair.com'],
+    'CI': ['CAL', 'https://www.china-airlines.com'],
+    'NH': ['ANA', 'https://www.ana.co.jp'],
+    'JL': ['JAL', 'https://www.jal.com'],
+    'CX': ['CPA', 'https://www.cathaypacific.com'],
+    'SQ': ['SIA', 'https://www.singaporeair.com'],
+    'OZ': ['AAR', 'https://flyasiana.com'],
+    'VN': ['HVN', 'https://www.vietnamairlines.com'],
+    'TG': ['THA', 'https://www.thaiairways.com'],
+    'AK': ['AKK', 'https://www.airasia.com'],
+    'ET': ['ETH', 'https://www.ethiopianairlines.com'],
+    'LA': ['LAN', 'https://www.latam.com'],
+    'AA': ['AAL', 'https://www.aa.com'],
+    'DL': ['DAL', 'https://www.delta.com'],
+    'UA': ['UAL', 'https://www.united.com'],
+    'AC': ['ACA', 'https://www.aircanada.com'],
+    'NZ': ['ANZ', 'https://www.airnewzealand.com'],
+    'QF': ['QFA', 'https://www.qantas.com'],
+    '9W': ['JAI', 'https://www.jetairways.com'],
+    'FQ': ['FQF', 'https://www.flybe.com'],
+    'R9': ['RWD', 'https://www.rwandair.com'],
+    'G9': ['ABY', 'https://www.airarabia.com'],
+    'FZ': ['FDB', 'https://www.flydubai.com'],
+    'KU': ['KAC', 'https://www.kuwaitairways.com'],
+    'ME': ['MEA', 'https://www.mea.com.lb'],
+    'RJ': ['RJA', 'https://rj.com']
+};
 
-    // Extract the IATA code from the flight number
-    const iataCode = flight.flightNumber.slice(0, 2);
+ // Aircraft Manufacturers List
+ const aircraftManufacturers = {
+    'Airbus': {
+        'types': ['A319', 'A320', 'A321', 'A32N', 'A332', 'A333', 'A342', 'A343', 'A30', 'A380'],
+        'logo': 'airbus_logo.png',
+        'website': 'https://www.airbus.com'
+    },
+    'Boeing': {
+        'types': ['B733', 'B734', 'B735', 'B736', 'B737', 'B738', 'B739', 'B73M', 'B752', 'B753'],
+        'logo': 'boeing_logo.png',
+        'website': 'https://www.boeing.com'
+    },
+    'Embraer': {
+        'types': ['E170', 'E175', 'E190', 'E195', 'E195-E2'],
+        'logo': 'embraer_logo.png',
+        'website': 'https://www.embraer.com'
+    },
+    'ATR': {
+        'types': ['AT4', 'AT7', 'AT72', 'AT75', 'AT76', 'AT42'],  // Add ATR types if needed
+        'logo': 'atr_logo.png',
+        'website': 'https://www.atraircraft.com'
+    }
+};
+     // Extract the IATA code from the flight number
+     const iataCode = flight.flightNumber.slice(0, 2);
 
-    // Find the ICAO code
-    const icaoCode = iataToIcao[iataCode] || '';
+// Find the ICAO code and airline URL
+const [icaoCode, airlineUrl] = iataToIcao[iataCode] || ['', ''];
+const flightAwareUrl = `https://www.flightaware.com/live/flight/${icaoCode}${flight.flightNumber}`;
+const logoUrl = `https://www.flightaware.com/images/airline_logos/180px/${icaoCode}.png`;
+const placeholderUrl = 'https://via.placeholder.com/180x120?text=No+Logo'; // Placeholder image URL
 
-    // Construct the URL for FlightAware and airline logo
-    const flightAwareUrl = `https://www.flightaware.com/live/flight/${icaoCode}${flight.flightNumber}`;
-    const logoUrl = `https://www.flightaware.com/images/airline_logos/180px/${icaoCode}.png`;
+  // Extract the IATA code from the flight number
 
-    const icon = flight.type === 'arrival' ? 'fa-plane-arrival' : 'fa-plane-departure';
 
-    flightItem.innerHTML = `
-        <div class="flex justify-between items-center mb-2">
-            <div class="flex items-center">
-                <a href="${flightAwareUrl}" target="_blank" class="flex items-center text-blue-500 hover:underline">
-                    <img src="${logoUrl}" alt="${flight.airline} logo" class="w-12 h-auto mr-2">
-                    <i class="fas ${icon} text-blue-500 mr-2"></i>
-                    <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
-                </a>
-            </div>
-            <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTimeLT(flight.time)}</span>
+// Determine aircraft manufacturer logo
+let manufacturerLogoUrl = '';
+let manufacturerWebsite = '';
+
+Object.keys(aircraftManufacturers).forEach(manufacturer => {
+    if (aircraftManufacturers[manufacturer].types.includes(flight.aircraft)) {
+        manufacturerLogoUrl = `${aircraftManufacturers[manufacturer].logo}`;
+        manufacturerWebsite = aircraftManufacturers[manufacturer].website;
+    }
+});
+
+// Define icon for arrival or departure
+const icon = flight.type === 'arrival' ? 'fa-plane-arrival' : 'fa-plane-departure';
+
+// Create flight item HTML
+flightItem.innerHTML = `
+    <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center">
+            <a href="${flightAwareUrl}" target="_blank" class="flex items-center text-blue-500 hover:underline">
+                <img src="${logoUrl}" alt="${flight.airline} logo" class="w-12 h-auto mr-2" onerror="this.src='${placeholderUrl}'">
+                <i class="fas ${icon} text-blue-500 mr-2"></i>
+                <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
+            </a>
         </div>
-        <p class="text-gray-600 dark:text-gray-400">${flight.destination} (${flight.iata})</p>
+        <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTimeLT(flight.time)}</span>
+    </div>
+    <p class="text-gray-600 dark:text-gray-400">${flight.destination} (${flight.iata})</p>
+    <div class="flex justify-between items-center mt-2">
         <button class="mt-2 text-blue-600 hover:underline" onclick="toggleFlightDetails(${flight.id})">Show Details</button>
-        <div id="details-${flight.id}" class="hidden mt-2">
-            <p><span class="font-semibold">Aircraft:</span> ${flight.aircraft}</p>
-            <p><span class="font-semibold">Days:</span> ${formatDaysAsWeek(flight.days)}</p>
-            <p><span class="font-semibold">Start Date:</span> ${flight.startDate}</p>
-            <p><span class="font-semibold">End Date:</span> ${flight.endDate}</p>
-            <p><span class="font-semibold">Type:</span> ${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</p>
-        </div>
-    `;
+        <a href="${airlineUrl}" target="_blank" class="mt-2 bg-green-300 text-white rounded px-4 py-2 hover:bg-green-400">Buy Ticket</a>
+    </div>
+    <div id="details-${flight.id}" class="hidden mt-2">
+        <p><span class="font-semibold">Aircraft:</span> <img src="${manufacturerLogoUrl}" alt="${flight.aircraft} logo" class="w-12 h-auto inline mr-2"> ${flight.aircraft}</p>
+        <p><span class="font-semibold">Days:</span> ${formatDaysAsWeek(flight.days)}</p>
+        <p><span class="font-semibold">Start Date:</span> ${flight.startDate}</p>
+        <p><span class="font-semibold">End Date:</span> ${flight.endDate}</p>
+        <p><span class="font-semibold">Type:</span> ${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</p>
+    </div>
+`;
 
-    flightsList.appendChild(flightItem);
+flightsList.appendChild(flightItem);
 }
 
 // New function to toggle flight details
