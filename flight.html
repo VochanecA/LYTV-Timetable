@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        #flightTime {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight Time Calculator</h1>
+    <label for="departure">Departure IATA Code:</label>
+    <input type="text" id="departure" value="LAX">
+    <br>
+    <label for="arrival">Arrival IATA Code:</label>
+    <input type="text" id="arrival" value="JFK">
+    <br>
+    <button id="calculate">Calculate Flight Time</button>
+    <div id="flightTime"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
