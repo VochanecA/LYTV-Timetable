@@ -1,268 +1,131 @@
-﻿﻿<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Winter Timetable 2024-2025</title>
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tivat Winter Timetable 2024-2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="manifest" href="https://vochaneca.github.io/LYTV-Timetable/manifest.json">
-  <link rel="icon" type="image/x-icon" href="https://vochaneca.github.io/LYTV-Timetable/favicon.ico">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://vochaneca.github.io/LYTV-Timetable/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="https://vochaneca.github.io/LYTV-Timetable/android-chrome-512x512.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="https://vochaneca.github.io/LYTV-Timetable/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://vochaneca.github.io/LYTV-Timetable/favicon-32x32.png">
-  <style>
-    body {
-      background-color: #f0f8ff;
-      color: #333;
-      font-family: 'Arial', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    // ... any other configurations
+  }
+</script>
+
+
+<script>
+  // Theme toggle
+  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+  const themeToggleBtn = document.getElementById('theme-toggle');
   
-    /* Light Theme */
-    body.light-theme {
-      background-color: #ffffff;
-      color: #000000;
+  // Function to set the theme
+  function setTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      themeToggleLightIcon.classList.remove('hidden');
+      themeToggleDarkIcon.classList.add('hidden');
+      localStorage.setItem('color-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      themeToggleDarkIcon.classList.remove('hidden');
+      themeToggleLightIcon.classList.add('hidden');
+      localStorage.setItem('color-theme', 'light');
     }
+  }
   
-    .light-theme .ons-toolbar {
-      background-color: #f1f1f1;
+  // Set initial theme
+  if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    setTheme('dark');
+  } else {
+    setTheme('light');
+  }
+  
+  // Toggle theme when button is clicked
+  themeToggleBtn.addEventListener('click', function() {
+    if (document.documentElement.classList.contains('dark')) {
+      setTheme('light');
+    } else {
+      setTheme('dark');
     }
-  
-    /* Dark Theme */
-    body.dark-theme {
-      background-color: #000000;
-      color: #ffffff;
-    }
-  
-    .dark-theme .ons-toolbar {
-      background-color: #333333;
-    }
-  
-    .warning-container {
-      display: flex;
-      align-items: center;
-    }
-  
-    .warning-icon {
-      font-size: 30px;
-      color: #FFA500; /* Orange color to match the warning style */
-      margin-right: 15px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
-  
-    .card__content p {
-      margin: 0;
-      line-height: 1.6;
-    }
-  
-    .page__content {
-      padding: 20px;
-    }
-  
-    ons-toolbar {
-      background-color: #003366;
-    }
-  
-    ons-toolbar .center {
-      font-size: 20px;
-      font-weight: bold;
-    }
-  
-    .header {
-      background-color: #003366;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-  
-    .sub-header {
-      color: #003366;
-      font-size: 20px;
-      margin: 15px 0;
-      font-weight: bold;
-    }
-  
-    ons-card {
-      margin-bottom: 20px;
-      border-radius: 15px;
-      overflow: hidden;
-    }
-  
-    .select-card {
-      background-color: #FFA500;
-      padding: 15px;
-    }
-  
-    .search-card {
-      background-color: #90EE90;
-      padding: 15px;
-    }
-  
-    .select-title, .search-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #003366;
-    }
-  
-    ons-select {
-      width: 100%;
-    }
-  
-    ons-search-input {
-      width: 100%;
-    }
-  
-    ons-list-item {
-      border-bottom: 1px solid #e0e0e0;
-    }
-  
-    ons-list-item:last-child {
-      border-bottom: none;
-    }
-  
-    ons-list-item ons-row {
-      padding: 15px 10px;
-    }
-  
-    ons-list-item ons-row:nth-child(even) {
-      background-color: #f5f5f5;
-    }
-  
-    ons-list-item ons-row:hover {
-      background-color: #e6f2ff;
-    }
-  
-    .flight-number, .destination {
-      font-size: 18px;
-      font-weight: bold;
-    }
-  
-    .time {
-      font-weight: bold;
-    }
-  
-    .clock-icon {
-      margin-right: 5px;
-    }
-  
-    #flights-list ons-col {
-      font-size: 14px;
-    }
-  
-    @media (max-width: 600px) {
-      #flights-list ons-col {
-        font-size: 12px;
-      }
-    }
-  
-    /* New styles for the button-container and buttons with icons */
-    .button-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px; /* Add space between buttons */
-      margin-top: 20px;
-    }
-  
-    ons-button {
-      background-color: #003366;
-      color: white;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center; /* Align icons and text */
-    }
-  
-    ons-button ons-icon {
-      margin-right: 8px; /* Space between icon and text */
-      font-size: 16px; /* Adjust icon size */
-    }
-  </style>
-  
+  });
+    </script>
 </head>
-<body>
-  <ons-page>
-    <ons-toolbar>
-      <div class="center">Tivat Winter Timetable 2024-2025</div>
-    </ons-toolbar>
-    
-    <div class="page__content">
-      <div class="header">Flight Schedule</div>
-
-      <ons-card>
-        <div class="card__content warning-container">
-          <div class="warning-icon">
-            <i class="fas fa-exclamation-triangle"></i>
-          </div>
-          <p>This is the preliminary flight schedule for the winter season from October 27, 2024, to March 29, 2025. Please note that airlines retain the right to make changes to the flight timetable. </p>
-          <div class="download-button">
-            <a href="https://vochaneca.github.io/LYTV_Winter24_25_Rev0_02SEP2024.pdf" download>
-              <i class="fas fa-file-pdf"></i> Download Timetable
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+    <nav class="bg-white border-gray-200 dark:bg-gray-800">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tivat Winter Timetable 2024-2025</span>
             </a>
-          </div>
+            <div class="flex md:order-2">
+                <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
         </div>
-      </ons-card>
+    </nav>
 
-
-      <ons-card class="select-card">
-        <div class="select-title">Select destination</div>
-        <ons-select id="destination-select" onchange="filterFlights()">
-          <option value="">All destinations</option>
-          <option value="Belgrade, Serbia">Belgrade, Serbia (BEG)</option>
-          <option value="Berlin, Germany">Berlin, Germany (BER)</option>
-          <option value="Istanbul, Turkey">Istanbul, Turkey (IST)</option>
-        </ons-select>
-        
-        <!-- Switch to toggle between Arrivals and Departures -->
- <div style="margin-top: 15px;">
-  <span>Show Departures</span>
-  <ons-switch id="flight-type-switch" checked="true" onchange="filterFlights()"></ons-switch>
-  <span>Show Arrivals</span>
-</div>
-
-        <div style="margin: 1px;">
-          <label for="date-picker">Select Date:</label>
-          <input type="date" id="date-picker">
-          <ons-button id="filter-button">Filter Flights</ons-button>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+            <p class="font-bold">Warning</p>
+            <p>This is the preliminary flight schedule for the winter season from October 27, 2024, to March 29, 2025. Please note that airlines retain the right to make changes to the flight timetable.</p>
+            <a href="https://vochaneca.github.io/LYTV_Winter24_25_Rev0_02SEP2024.pdf" download class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <i class="fas fa-file-pdf mr-2"></i> Download Timetable
+            </a>
         </div>
-      </ons-card>
 
-      <ons-card class="search-card">
-        <div class="search-title">Search flights</div>
-        <ons-search-input id="search-input" placeholder="Search by flight number or airline" onkeyup="filterFlights()"></ons-search-input>
-      </ons-card>
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="destination-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select destination</label>
+                <select id="destination-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">All destinations</option>
+                    <option value="Belgrade, Serbia">Belgrade, Serbia (BEG)</option>
+                    <option value="Berlin, Germany">Berlin, Germany (BER)</option>
+                    <option value="Istanbul, Turkey">Istanbul, Turkey (IST)</option>
+                </select>
+            </div>
+            <div>
+                <label for="search-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search flights</label>
+                <input type="text" id="search-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by flight number or airline">
+            </div>
+        </div>
 
-      <ons-card id="flights-card">
-        <div class="card__content">
-          <div class="sub-header">Flight Information</div>
-          <ons-list id="flights-list" class="list"></ons-list>
+        <div class="mb-6">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="flight-type-switch" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span id="flight-type-label" class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Show Arrivals</span>
+          </label>
+        </div>
+
+        <div class="mb-6">
+            <label for="date-picker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Date:</label>
+            <div class="flex items-center">
+                <input type="date" id="date-picker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <button id="filter-button" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Filter Flights</button>
+            </div>
+        </div>
+
+        <div id="flights-list" class="space-y-4">
             <!-- Flights will be dynamically added here -->
-          </ons-list>
         </div>
-      </ons-card>
 
-      <div class="button-container">
-        <ons-button onclick="showAllFlights()">
-          <ons-icon icon="fa-plane"></ons-icon> Show All Flights
-        </ons-button>
-        <ons-button onclick="clearFlights()">
-          <ons-icon icon="fa-times-circle"></ons-icon> Clear
-        </ons-button>
-      </div>
-      
+        <div class="mt-6 flex justify-center space-x-4">
+            <button onclick="showAllFlights()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <i class="fas fa-plane mr-2"></i> Show All Flights
+            </button>
+            <button onclick="clearFlights()" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
+                <i class="fas fa-times-circle mr-2"></i> Clear
+            </button>
+        </div>
     </div>
-  </ons-page>
 
 <script>
 const flightsData = [
@@ -304,14 +167,12 @@ function parseDate(dateStr) {
   return new Date(year, month - 1, day);
 }
 
-// Function to format time
 function formatTime(timeStr) {
   return timeStr;
 }
 
-// Function to get the day number of the week
 function getDayNumber(date) {
-  return (date.getDay() + 6) % 7 + 1; // Adjust so Monday = 1, Sunday = 7
+  return (date.getDay() + 6) % 7 + 1;
 }
 
 function formatDateToDMY(dateStr) {
@@ -319,8 +180,7 @@ function formatDateToDMY(dateStr) {
   return `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`;
 }
 
-// Function to filter flights
-// Function to filter flights by date
+// Updated function to filter flights by date
 function filterFlightsByDate() {
   const selectedDateStr = document.getElementById('date-picker').value;
   if (!selectedDateStr) {
@@ -328,7 +188,6 @@ function filterFlightsByDate() {
     return;
   }
   
-  // Convert the selected date to dd-mm-yyyy format
   const formattedSelectedDate = formatDateToDMY(selectedDateStr);
   const selectedDate = parseDate(formattedSelectedDate);
   const selectedDayNumber = getDayNumber(selectedDate);
@@ -357,37 +216,39 @@ function filterFlightsByDate() {
     addFlightToList(flight);
   });
 }
-// Function to filter flights based on destination and search input
+
+// Updated function to filter flights
 function filterFlights() {
-  const destinationSelect = document.getElementById('destination-select');
-  const searchInput = document.getElementById('search-input');
-  const flightTypeSwitch = document.getElementById('flight-type-switch');
+    const destinationSelect = document.getElementById('destination-select');
+    const searchInput = document.getElementById('search-input');
+    const flightTypeSwitch = document.getElementById('flight-type-switch');
 
-  const selectedDestination = destinationSelect.value;
-  const searchTerm = searchInput.value.toLowerCase();
-  const showArrivals = flightTypeSwitch.checked; // true for arrivals, false for departures
-  const flightsList = document.getElementById('flights-list');
-  
-  flightsList.innerHTML = '';
+    const selectedDestination = destinationSelect.value;
+    const searchTerm = searchInput.value.toLowerCase();
+    const showArrivals = flightTypeSwitch.checked;
+    const flightsList = document.getElementById('flights-list');
+    
+    flightsList.innerHTML = '';
 
-  flightsData.forEach(flight => {
-    if (
-      (selectedDestination === '' || flight.destination === selectedDestination) &&
-      (flight.flightNumber.toLowerCase().includes(searchTerm) ||
-       flight.airline.toLowerCase().includes(searchTerm)) &&
-      (showArrivals && flight.type === 'arrival' || !showArrivals && flight.type === 'departure')
-    ) {
-      addFlightToList(flight);
-    }
-  });
+    flightsData.forEach(flight => {
+        if (
+            (selectedDestination === '' || flight.destination === selectedDestination) &&
+            (flight.flightNumber.toLowerCase().includes(searchTerm) ||
+             flight.airline.toLowerCase().includes(searchTerm)) &&
+            ((showArrivals && flight.type === 'arrival') || (!showArrivals && flight.type === 'departure'))
+        ) {
+            addFlightToList(flight);
+        }
+    });
 }
 
+// Updated function to show all flights
 function showAllFlights() {
   document.getElementById('destination-select').value = '';
   document.getElementById('search-input').value = '';
   const flightsList = document.getElementById('flights-list');
   const flightTypeSwitch = document.getElementById('flight-type-switch');
-  const showArrivals = flightTypeSwitch.checked; // true for arrivals, false for departures
+  const showArrivals = flightTypeSwitch.checked;
 
   flightsList.innerHTML = '';
   flightsData.forEach(flight => {
@@ -397,67 +258,44 @@ function showAllFlights() {
   });
 }
 
-function formatTime(time) {
-  const [hours, minutes] = time.split(':').map(Number);
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-}
-
-
+// Updated function to add a flight to the list
 function addFlightToList(flight) {
   const flightsList = document.getElementById('flights-list');
-  const listItem = document.createElement('ons-list-item');
-  listItem.setAttribute('expandable');
-  listItem.setAttribute('id', `flight-${flight.id}`);
+  const flightItem = document.createElement('div');
+  flightItem.className = 'bg-white dark:bg-gray-800 shadow-md rounded-lg p-4';
+  flightItem.setAttribute('id', `flight-${flight.id}`);
 
   const icon = flight.type === 'arrival' ? 'fa-plane-arrival' : 'fa-plane-departure';
 
-  const headerHTML = `
-    <div class="left">
-      <ons-icon icon="${icon}" class="list-item__icon"></ons-icon>
+  flightItem.innerHTML = `
+    <div class="flex justify-between items-center mb-2">
+      <div>
+        <i class="fas ${icon} text-blue-500 mr-2"></i>
+        <span class="font-bold">${flight.airline}</span> - <span class="font-bold">${flight.flightNumber}</span>
+      </div>
+      <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">${formatTime(flight.time)}</span>
     </div>
-    <div class="center">
-     <span class="list-item__title"><strong>${flight.airline}</strong> - <strong>${flight.flightNumber}</strong></span>
-      <span class="list-item__subtitle">${flight.destination} (${flight.iata})</span>
-    </div>
-    <div class="right">
-      <span class="time" style="display: inline-block; background-color: #ADD8E6; color: #000; border-radius: 50%; padding: 5px 10px; text-align: center;">${formatTime(flight.time)}</span>
-    </div>
-  `;
-
-  const expandedHTML = `
-    <div class="expandable-content">
-      <ons-list>
-<ons-list-item>
-  <div class="left" style="font-weight: 400;color:#848484;">Aircraft: </div>
-  <div class="center" style="font-weight: bold;">${flight.aircraft}</div>
-</ons-list-item>
-<ons-list-item>
-  <div class="left" style="font-weight: 400;color:#848484;">Days: </div>
-  <div class="center" style="font-weight: bold;">
-    ${formatDaysAsWeek(flight.days)}
-  </div>
-</ons-list-item>
-<ons-list-item>
-  <div class="left" style="font-weight: 400;color:#848484;">Start Date: </div>
-  <div class="center" style="font-weight: bold;">${flight.startDate}</div>
-</ons-list-item>
-<ons-list-item>
-  <div class="left" style="font-weight: 400;color:#848484;">End Date: </div>
-  <div class="center" style="font-weight: bold;">${flight.endDate}</div>
-</ons-list-item>
-<ons-list-item>
-  <div class="left" style="font-weight: 400;color:#848484;">Type: </div>
-  <div class="center" style="font-weight: bold;">${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</div>
-</ons-list-item>
-      </ons-list>
+    <p class="text-gray-600 dark:text-gray-400">${flight.destination} (${flight.iata})</p>
+    <button class="mt-2 text-blue-600 hover:underline" onclick="toggleFlightDetails(${flight.id})">Show Details</button>
+    <div id="details-${flight.id}" class="hidden mt-2">
+      <p><span class="font-semibold">Aircraft:</span> ${flight.aircraft}</p>
+      <p><span class="font-semibold">Days:</span> ${formatDaysAsWeek(flight.days)}</p>
+      <p><span class="font-semibold">Start Date:</span> ${flight.startDate}</p>
+      <p><span class="font-semibold">End Date:</span> ${flight.endDate}</p>
+      <p><span class="font-semibold">Type:</span> ${flight.type.charAt(0).toUpperCase() + flight.type.slice(1)}</p>
     </div>
   `;
 
-  listItem.innerHTML = headerHTML + expandedHTML;
-  flightsList.appendChild(listItem);
+  flightsList.appendChild(flightItem);
 }
-// Add event listener to filter button
-document.getElementById('filter-button').addEventListener('click', filterFlightsByDate);
+
+// New function to toggle flight details
+function toggleFlightDetails(flightId) {
+  const detailsElement = document.getElementById(`details-${flightId}`);
+  detailsElement.classList.toggle('hidden');
+}
+
+// Function to clear flights (unchanged)
 function clearFlights() {
   const flightsList = document.getElementById('flights-list');
   flightsList.innerHTML = '';
@@ -465,57 +303,81 @@ function clearFlights() {
   document.getElementById('search-input').value = '';
 }
 
-function toggleTheme(switchElement) {
-  const isDarkTheme = switchElement.checked;
-
-  // Add/remove theme classes
-  document.body.classList.toggle('dark-theme', isDarkTheme);
-  document.body.classList.toggle('light-theme', !isDarkTheme);
-
-  // Save the theme preference to localStorage
-  localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-}
-window.onload = function() {
-  showAllFlights();
-
-  // Retrieve and apply the saved theme
-  const savedTheme = localStorage.getItem('theme');
-  const isDarkTheme = savedTheme === 'dark';
-
-  document.body.classList.toggle('dark-theme', isDarkTheme);
-  document.body.classList.toggle('light-theme', !isDarkTheme);
-
-  const themeSwitch = document.getElementById('theme-switch');
-  if (themeSwitch) {
-    themeSwitch.checked = isDarkTheme;
-  }
-};
-</script>
-
-<script>
+// Function to format days as week (unchanged)
 function formatDaysAsWeek(days) {
-    // Ensure days is treated as a string
-    if (typeof days !== 'string') {
-        days = String(days);
+  if (typeof days !== 'string') {
+    days = String(days);
+  }
+  const daysArray = days.split(',').map(Number);
+  const week = ['-', '-', '-', '-', '-', '-', '-'];
+  daysArray.forEach(day => {
+    if (day >= 1 && day <= 7) {
+      week[day - 1] = day;
     }
+  });
+  return week.join(' ');
+}
 
-    // Split the days string into an array of day numbers
-    const daysArray = days.split(',').map(Number);
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  showAllFlights();
+  const flightTypeSwitch = document.getElementById('flight-type-switch');
+    const flightTypeLabel = document.getElementById('flight-type-label');
 
-    // Create an array for the week with default '-' values
-    const week = ['-', '-', '-', '-', '-', '-', '-'];
-
-    // Place the days in the correct positions in the week array
-    daysArray.forEach(day => {
-        if (day >= 1 && day <= 7) {
-            week[day - 1] = day;
-        }
+    flightTypeSwitch.addEventListener('change', function() {
+        flightTypeLabel.textContent = this.checked ? 'Show Arrivals' : 'Show Departures';
+        filterFlights();
     });
 
-    // Join the week array into a string with '-' separators
-    return week.join(' ');
-}
 
-  </script>
+  document.getElementById('destination-select').addEventListener('change', filterFlights);
+  document.getElementById('search-input').addEventListener('input', filterFlights);
+  document.getElementById('flight-type-switch').addEventListener('change', filterFlights);
+  document.getElementById('filter-button').addEventListener('click', filterFlightsByDate);
+  
+  // Theme toggle
+  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+  // Change the icons inside the button based on previous settings
+  if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    themeToggleLightIcon.classList.remove('hidden');
+  } else {
+    themeToggleDarkIcon.classList.remove('hidden');
+  }
+
+  const themeToggleBtn = document.getElementById('theme-toggle');
+
+  themeToggleBtn.addEventListener('click', function() {
+    // toggle icons inside button
+    themeToggleDarkIcon.classList.toggle('hidden');
+    themeToggleLightIcon.classList.toggle('hidden');
+
+    // if set via local storage previously
+    if (localStorage.getItem('color-theme')) {
+      if (localStorage.getItem('color-theme') === 'light') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      }
+    } else {
+      // if NOT set via local storage previously
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    }
+  });
+
+  
+});
+
+
+</script>
 </body>
 </html>
