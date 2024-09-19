@@ -190,8 +190,8 @@
             <label for="date-picker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Date:</label>
             <div class="flex items-center">
                 <input type="date" id="date-picker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <button id="filter-button" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Filter Flights</button>
-            </div>
+                <button id="filter-button" onclick="filterFlightsByDate()" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Filter Flights</button>
+              </div>
         </div>
 
         <div id="flights-list" class="space-y-4">
@@ -282,9 +282,16 @@ const flightsData = [
 ];
 
 function parseDate(dateStr) {
-  const [day, month, year] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1, day);
+  const months = {
+    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+  };
+  
+  const [day, monthStr, year] = dateStr.split('-');
+  const month = months[monthStr];
+  return new Date(year, month, parseInt(day));
 }
+
 
 function formatTime(timeStr) {
   return timeStr;
@@ -301,9 +308,7 @@ function formatTimeLT(time) {
   return `${hours}:${minutes}`;
 }
 
-function getDayNumber(date) {
-  return (date.getDay() + 6) % 7 + 1;
-}
+
 
 function formatDateToDMY(dateStr) {
   const [year, month, day] = dateStr.split('-').map(Number);
@@ -317,34 +322,41 @@ function filterFlightsByDate() {
     alert('Please select a date.');
     return;
   }
-  
-  const formattedSelectedDate = formatDateToDMY(selectedDateStr);
-  const selectedDate = parseDate(formattedSelectedDate);
+
+  const selectedDate = new Date(selectedDateStr);
   const selectedDayNumber = getDayNumber(selectedDate);
+
   const flightsList = document.getElementById('flights-list');
+  flightsList.innerHTML = ''; // Clear the current list
 
-  flightsList.innerHTML = '';
+  const filteredFlights = flightsData.filter(flight => {
+    const startDate = parseDate(flight.startDate); // Parse start date
+    const endDate = parseDate(flight.endDate); // Parse end date
+    
+    // Check if the flight date is within the valid range
+    const isInDateRange = selectedDate >= startDate && selectedDate <= endDate;
+    
+    // Check if the flight operates on the selected day
+    const operatesOnSelectedDay = 
+      Array.isArray(flight.days) 
+      ? flight.days.includes(selectedDayNumber)
+      : flight.days === 'all';
 
-  const filteredFlights = flightsData
-    .filter(flight => {
-      const startDate = parseDate(flight.startDate);
-      const endDate = parseDate(flight.endDate);
-      const isInDateRange = selectedDate >= startDate && selectedDate <= endDate;
-      
-      const days = typeof flight.days === 'string' ? flight.days.split(',').map(Number) : [flight.days];
-      const isOnDay = days.includes(selectedDayNumber);
-      
-      return isInDateRange && isOnDay;
-    })
-    .sort((a, b) => {
-      const timeA = a.time.split(':').map(Number);
-      const timeB = b.time.split(':').map(Number);
-      return timeA[0] - timeB[0] || timeA[1] - timeB[1];
-    });
-
-  filteredFlights.forEach(flight => {
-    addFlightToList(flight);
+    return isInDateRange && operatesOnSelectedDay;
   });
+
+  if (filteredFlights.length === 0) {
+    flightsList.innerHTML = '<p>No flights found for the selected date.</p>';
+  } else {
+    filteredFlights.forEach(flight => {
+      // Use the addFlightToList function to build the table
+      addFlightToList(flight);
+    });
+  }
+}
+
+function getDayNumber(date) {
+  return (date.getDay() + 6) % 7 + 1; // Returns 1 for Monday, 7 for Sunday
 }
 
 // Updated function to filter flights
@@ -578,14 +590,28 @@ function formatDaysAsWeek(days) {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
+
   showAllFlights();
   const flightTypeSwitch = document.getElementById('flight-type-switch');
-    const flightTypeLabel = document.getElementById('flight-type-label');
+  const flightTypeLabel = document.getElementById('flight-type-label');
 
-    flightTypeSwitch.addEventListener('change', function() {
-        flightTypeLabel.textContent = this.checked ? 'Show Arrivals' : 'Show Departures';
-        filterFlights();
-    });
+  flightTypeSwitch.addEventListener('change', function() {
+    flightTypeLabel.textContent = this.checked ? 'Show Arrivals' : 'Show Departures';
+    filterFlights();
+  });
+
+  document.getElementById('destination-select').addEventListener('change', filterFlights);
+  document.getElementById('search-input').addEventListener('input', filterFlights);
+  document.getElementById('flight-type-switch').addEventListener('change', filterFlights);
+  
+  // Date picker configuration
+  const datePicker = document.getElementById('date-picker');
+  datePicker.min = '2024-10-27'; // Start of winter season
+  datePicker.max = '2025-03-29'; // End of winter season
+  
+  // Set initial date to start of season
+  datePicker.value = '2024-10-27';
+  
 
 
   document.getElementById('destination-select').addEventListener('change', filterFlights);
