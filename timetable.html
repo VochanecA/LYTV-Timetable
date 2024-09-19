@@ -345,6 +345,15 @@ function filterFlightsByDate() {
     return isInDateRange && operatesOnSelectedDay;
   });
 
+  // Sort flights by time
+  filteredFlights.sort((a, b) => {
+    const timeA = a.time.split(':').map(Number);
+    const timeB = b.time.split(':').map(Number);
+    const minutesA = timeA[0] * 60 + timeA[1];
+    const minutesB = timeB[0] * 60 + timeB[1];
+    return minutesA - minutesB;
+  });
+
   if (filteredFlights.length === 0) {
     flightsList.innerHTML = '<p>No flights found for the selected date.</p>';
   } else {
